@@ -1,0 +1,366 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>IGNOXPLAYZZ eSports — Free Fire Tournaments</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Orbitron & Rajdhani & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Orbitron', 'sans-serif'],
+            gaming: ['Rajdhani', 'sans-serif'],
+          },
+          colors: {
+            cyber: {
+              bg: '#07090f',
+              card: '#0f1422',
+              cardLight: '#161d31',
+              orange: '#ff5500',
+              gold: '#ffb703',
+              cyan: '#00f5d4',
+              crimson: '#ef233c',
+              purple: '#9b5de5',
+            }
+          },
+          boxShadow: {
+            'neon-orange': '0 0 18px rgba(255, 85, 0, 0.45)',
+            'neon-gold': '0 0 18px rgba(255, 183, 3, 0.4)',
+            'neon-cyan': '0 0 18px rgba(0, 245, 212, 0.35)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: #07090f;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 15% 10%, rgba(255, 85, 0, 0.12) 0%, transparent 35%),
+        radial-gradient(circle at 85% 25%, rgba(0, 245, 212, 0.08) 0%, transparent 35%),
+        linear-gradient(to bottom, #07090f, #0b0f1c);
+      min-height: 100vh;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #07090f;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 9999px;
+    }
+    .cyber-grid-bg {
+      background-size: 28px 28px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+    .clip-gaming {
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.78; transform: scale(1.03); }
+    }
+    .animate-glow {
+      animation: pulseGlow 2.4s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="cyber-grid-bg pb-24 select-none">
+
+  <!-- ==================== SECURITY & ANTI-TAMPER GUARD ==================== -->
+  <script>
+    (function SecurityShield() {
+      // Prevent context menu inspection on production feel while keeping inputs usable
+      document.addEventListener('contextmenu', function(e) {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+        }
+      });
+      // Block common DevTools shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (
+          e.key === 'F12' ||
+          (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+          (e.ctrlKey && e.key.toUpperCase() === 'U')
+        ) {
+          e.preventDefault();
+        }
+      });
+    })();
+  </script>
+
+  <!-- ==================== GLOBAL TOAST / NOTIFICATION BANNER ==================== -->
+  <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md pointer-events-none flex flex-col gap-2"></div>
+
+  <!-- ==================== AUTHENTICATION / REGISTRATION MODAL ==================== -->
+  <div id="auth-screen" class="fixed inset-0 z-40 bg-[#07090f]/95 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto hidden">
+    <div class="w-full max-w-md bg-[#0f1422] border border-orange-500/40 rounded-2xl p-6 shadow-neon-orange relative my-auto">
+      <!-- Decorative weapon & flame header -->
+      <div class="flex flex-col items-center text-center mb-5">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-600 via-amber-500 to-yellow-400 p-0.5 shadow-neon-orange mb-3">
+          <div class="w-full h-full bg-[#0b0f1c] rounded-2xl flex items-center justify-center">
+            <!-- Custom SVG Flame/Crosshair Emblem -->
+            <svg class="w-9 h-9 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L14.8 8.5L22 9.2L16.5 14L18.2 21L12 17.3L5.8 21L7.5 14L2 9.2L9.2 8.5L12 2Z" />
+              <circle cx="12" cy="12" r="3" fill="#ffb703" stroke="none" />
+            </svg>
+          </div>
+        </div>
+        <span class="text-[11px] font-display tracking-widest uppercase text-cyan-400 bg-cyan-950/60 border border-cyan-500/30 px-3 py-0.5 rounded-full mb-1">
+          Official Bermuda Arena
+        </span>
+        <h1 class="font-display text-xl sm:text-2xl font-black text-white tracking-wide">
+          Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400">IGNOXPLAYZZ</span> eSports!
+        </h1>
+        <p class="text-xs text-slate-400 mt-1">Register your Free Fire ID & UPI to enter daily cash rooms</p>
+      </div>
+
+      <!-- Registration / Login Form (NO Google Login) -->
+      <form id="register-form" class="space-y-3.5" onsubmit="handlePlayerAuth(event)">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Full Name <span class="text-orange-500">*</span></label>
+          <input type="text" id="reg-fullname" required maxlength="40" placeholder="e.g., Aarav Sharma"
+            class="w-full bg-[#161d31] border border-slate-700 focus:border-orange-500 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none transition" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Username <span class="text-orange-500">*</span></label>
+            <input type="text" id="reg-username" required maxlength="20" placeholder="e.g., ignox_king"
+              class="w-full bg-[#161d31] border border-slate-700 focus:border-orange-500 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none transition" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Date of Birth <span class="text-orange-500">*</span></label>
+            <input type="date" id="reg-dob" required max="2014-12-31"
+              class="w-full bg-[#161d31] border border-slate-700 focus:border-orange-500 rounded-xl px-3 py-2.5 text-sm text-white outline-none transition" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-amber-400 mb-1">
+            <i class="fa-solid fa-crosshairs mr-1"></i> Free Fire ID Name (IGN) <span class="text-orange-500">*</span>
+          </label>
+          <input type="text" id="reg-ffname" required maxlength="25" placeholder="Exact in-game Free Fire Name"
+            class="w-full bg-[#161d31] border border-amber-500/40 focus:border-amber-400 rounded-xl px-3.5 py-2.5 text-sm text-white font-semibold outline-none transition" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-cyan-400 mb-1">
+            <i class="fa-solid fa-indian-rupee-sign mr-1"></i> Registered UPI ID (For Prize Payouts) <span class="text-orange-500">*</span>
+          </label>
+          <input type="text" id="reg-upi" required maxlength="45" placeholder="e.g., playername@fam or 9876543210@ybl"
+            class="w-full bg-[#161d31] border border-cyan-500/40 focus:border-cyan-400 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none transition" />
+        </div>
+
+        <button type="submit"
+          class="w-full mt-2 py-3 rounded-xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-display font-bold text-sm tracking-wider uppercase shadow-neon-orange transition transform active:scale-[0.98]">
+          Enter Battle Arena <i class="fa-solid fa-bolt ml-1.5"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== TOP STICKY HEADER ==================== -->
+  <header class="sticky top-0 z-30 bg-[#07090f]/90 backdrop-blur-lg border-b border-slate-800/80 px-4 py-3">
+    <div class="max-w-3xl mx-auto flex items-center justify-between gap-2">
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-600 to-amber-500 flex items-center justify-center shadow-neon-orange shrink-0">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C12 2 7 7.5 7 12.5C7 15.5 9.2 18 12 18C14.8 18 17 15.5 17 12.5C17 10.8 16.1 9.1 15.2 7.8C15.2 7.8 14.8 10.2 13.3 10.2C12.2 10.2 12 8.8 12.5 7.2C13 5.5 12 2 12 2ZM10.5 19.5H13.5V22H10.5V19.5Z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="font-display font-black text-sm sm:text-base tracking-wide text-white">IGNOXPLAYZZ</span>
+            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30">eSports</span>
+          </div>
+          <p class="text-[11px] text-slate-400 truncate max-w-[155px] sm:max-w-xs" id="header-ff-name">Welcome to IGNOXPLAYZZ eSports!</p>
+        </div>
+      </div>
+
+      <!-- Right Controls: IGNO Coin Pill & Admin Quick Button -->
+      <div class="flex items-center gap-2">
+        <button onclick="switchTab('wallet')" class="flex items-center gap-1.5 bg-[#131a2c] hover:bg-[#1a233a] border border-amber-500/40 px-3 py-1.5 rounded-full shadow-neon-gold transition">
+          <!-- Custom IGNO Gold Coin SVG -->
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 32 32">
+            <defs>
+              <linearGradient id="ignoGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fde047"/>
+                <stop offset="50%" stop-color="#f59e0b"/>
+                <stop offset="100%" stop-color="#b45309"/>
+              </linearGradient>
+            </defs>
+            <circle cx="16" cy="16" r="14" fill="url(#ignoGold)" stroke="#fef08a" stroke-width="1.5"/>
+            <circle cx="16" cy="16" r="10.5" fill="none" stroke="#78350f" stroke-width="1" stroke-dasharray="2 2"/>
+            <text x="16" y="21" text-anchor="middle" fill="#451a03" font-family="Orbitron, sans-serif" font-weight="900" font-size="13">I</text>
+          </svg>
+          <span id="header-balance" class="font-display font-bold text-sm text-amber-400">0</span>
+          <span class="text-[10px] font-bold text-amber-200/80">IGNO</span>
+        </button>
+
+        <button onclick="openAdminAccess()" title="Admin Panel" class="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-orange-600/30 border border-slate-700 hover:border-orange-500 flex items-center justify-center text-slate-300 hover:text-orange-400 transition">
+          <i class="fa-solid fa-shield-halved text-sm"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT CONTAINER ==================== -->
+  <main class="max-w-3xl mx-auto px-4 pt-4 space-y-5">
+
+    <!-- Welcome Hero Banner -->
+    <section class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#171226] via-[#1f1320] to-[#0f1b29] border border-orange-500/30 p-4 sm:p-5 shadow-lg">
+      <!-- Decorative SVG Weapon Silhouette Backdrop -->
+      <svg class="absolute right-2 bottom-0 w-40 h-28 text-orange-500/10 pointer-events-none" viewBox="0 0 200 100" fill="currentColor">
+        <path d="M10 60 L55 60 L65 45 L135 45 L145 55 L190 55 L190 65 L140 65 L130 75 L95 75 L90 90 L72 90 L78 70 L50 70 L35 85 L15 85 L25 68 L10 68 Z"/>
+      </svg>
+
+      <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-[11px] font-semibold mb-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            BERMUDA MAP LIVE • 1 IGNO = ₹1
+          </div>
+          <h2 class="font-display text-base sm:text-lg font-extrabold text-white tracking-wide">
+            Welcome to IGNOXPLAYZZ eSports!
+          </h2>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Join daily Free Fire Custom Rooms, dominate Bermuda & withdraw instant UPI winnings.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="switchTab('wallet')" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-neon-gold transition">
+            + Add IGNO
+          </button>
+          <button onclick="openRulesModal()" class="px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-600 text-slate-200 font-semibold text-xs transition">
+            <i class="fa-solid fa-scroll mr-1 text-orange-400"></i> Rules
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 1: TOURNAMENTS (DAILY MATCHES) ==================== -->
+    <section id="tab-tournaments" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-sm sm:text-base font-bold text-white uppercase tracking-wider flex items-center gap-2">
+          <i class="fa-solid fa-fire text-orange-500"></i> Daily Bermuda Matches
+        </h3>
+        <span class="text-[11px] text-cyan-400 font-semibold bg-cyan-950/60 border border-cyan-500/30 px-2.5 py-1 rounded-lg">
+          <i class="fa-solid fa-map-location-dot mr-1"></i> Map: BERMUDA
+        </span>
+      </div>
+
+      <!-- Matches Grid -->
+      <div id="matches-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+      <!-- Embedded Rules Card Section -->
+      <div class="bg-[#0f1422] border border-red-500/30 rounded-2xl p-4 sm:p-5 mt-6">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div>
+            <h4 class="font-display text-sm font-bold text-white uppercase">Strict Tournament Rules</h4>
+            <p class="text-[11px] text-slate-400">Violation leads to instant disqualification & account ban</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs">
+          <div class="flex items-center gap-2.5 bg-[#161d31] p-2.5 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-ban text-red-500"></i>
+            <span class="text-slate-200 font-medium">No Ryden character allowed</span>
+          </div>
+          <div class="flex items-center gap-2.5 bg-[#161d31] p-2.5 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-user-slash text-red-500"></i>
+            <span class="text-slate-200 font-medium">Hackers permanently banned</span>
+          </div>
+          <div class="flex items-center gap-2.5 bg-[#161d31] p-2.5 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-shield-virus text-orange-400"></i>
+            <span class="text-slate-200 font-medium">No illegal behaviour / panels</span>
+          </div>
+          <div class="flex items-center gap-2.5 bg-[#161d31] p-2.5 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-users-slash text-orange-400"></i>
+            <span class="text-slate-200 font-medium">No opponent teaming</span>
+          </div>
+          <div class="flex items-center gap-2.5 bg-[#161d31] p-2.5 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-id-card text-cyan-400"></i>
+            <span class="text-slate-200 font-medium">Registered players only</span>
+          </div>
+          <div class="flex items-center gap-2.5 bg-[#161d31] p-2.5 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-people-arrows text-amber-400"></i>
+            <span class="text-slate-200 font-medium">Teammates can change, leaders cannot</span>
+          </div>
+          <div class="sm:col-span-2 flex items-center gap-2.5 bg-emerald-950/30 p-2.5 rounded-xl border border-emerald-500/30">
+            <i class="fa-solid fa-scale-balanced text-emerald-400"></i>
+            <span class="text-emerald-200 font-semibold">Fair gameplay is compulsory for all participants</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: IGNO WALLET (ADD MONEY QR & WITHDRAW) ==================== -->
+    <section id="tab-wallet" class="hidden space-y-5">
+      <!-- Wallet Balance Card -->
+      <div class="bg-gradient-to-br from-[#161f38] via-[#11172a] to-[#1f1629] border border-amber-500/40 rounded-2xl p-5 shadow-neon-gold relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-xs uppercase tracking-wider text-amber-300/80 font-semibold">Available IGNO Wallet Balance</p>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span id="wallet-balance-big" class="font-display text-3xl sm:text-4xl font-black text-white">0</span>
+              <span class="font-display text-sm font-bold text-amber-400">IGNO COINS</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Conversion Rate: <strong class="text-amber-300">1 IGNO Coin = ₹1 INR</strong></p>
+          </div>
+          <div class="w-16 h-16 rounded-2xl bg-amber-500/15 border border-amber-400/30 flex items-center justify-center">
+            <i class="fa-solid fa-wallet text-3xl text-amber-400"></i>
+          </div>
+        </div>
+
+        <!-- Wallet Sub-tabs -->
+        <div class="grid grid-cols-3 gap-2 mt-5 bg-[#090d16] p-1.5 rounded-xl border border-slate-800">
+          <button onclick="switchWalletSubtab('add')" id="wsub-btn-add" class="py-2 rounded-lg text-xs font-bold bg-orange-600 text-white transition">
+            <i class="fa-solid fa-qrcode mr-1"></i> Add Money
+          </button>
+          <button onclick="switchWalletSubtab('withdraw')" id="wsub-btn-withdraw" class="py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-money-bill-transfer mr-1"></i> Withdraw
+          </button>
+          <button onclick="switchWalletSubtab('txns')" id="wsub-btn-txns" class="py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition">
+            <i class="fa-solid fa-clock-rotate-left mr-1"></i> History
+          </button>
+        </div>
+      </div>
+
+      <!-- SUBTAB A: ADD MONEY (FULL DYNAMIC QR SYSTEM - NO UTR) -->
+      <div id="wallet-sub-add" class="bg-[#0f1422] border border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h4 class="font-display text-sm font-bold text-white">Add IGNO Coins via UPI QR</h4>
+            <p class="text-xs text-sl
